@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart & Digital — المنيو</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Poppins:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ══ NAVBAR ══ -->
+<header class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="logo-m">S</div>
+      <span class="logo-text">Smart<span>&amp;</span>Digital</span>
+    </a>
+
+    <nav class="nav-cats-desktop" id="nav-cats-desktop">
+      <button class="nc-btn active" data-cat="all">الكل</button>
+      <button class="nc-btn" data-cat="burgers">برجر</button>
+      <button class="nc-btn" data-cat="chicken">دجاج</button>
+      <button class="nc-btn" data-cat="meals">وجبات</button>
+      <button class="nc-btn" data-cat="sides">مقبلات</button>
+      <button class="nc-btn" data-cat="drinks">مشروبات</button>
+      <button class="nc-btn" data-cat="desserts">حلويات</button>
+      <button class="nc-btn" data-cat="breakfast">فطور</button>
+    </nav>
+
+    <div class="nav-actions">
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="search-inp" placeholder="ابحث في المنيو...">
+      </div>
+      <button class="cart-icon-btn" id="cart-icon-btn" onclick="toggleCart()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        <span class="cart-badge" id="cart-badge">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ══ HERO ══ -->
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-label">🔥 عروض محدودة</div>
+      <h1 class="hero-h1">طعم مختلف<br><span class="yellow">في كل وجبة</span></h1>
+      <p class="hero-p">اكتشف أشهى الوجبات المُعدّة بأجود الخامات — توصيل سريع لأي مكان</p>
+      <a href="#menu-section" class="hero-btn" onclick="scrollToMenu()">اطلب الآن →</a>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-burger-wrap">
+        <div class="hero-glow"></div>
+        <div class="hero-burger">🍔</div>
+        <div class="hero-rings">
+          <div class="ring r1"></div>
+          <div class="ring r2"></div>
+        </div>
+        <div class="float-badge fb1">🍟 فريز مجاني</div>
+        <div class="float-badge fb2">⭐ الأعلى تقييماً</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#f4f4f4"/></svg>
+  </div>
+</section>
+
+<!-- ══ PROMO STRIP ══ -->
+<div class="promo-strip">
+  <div class="promo-inner">
+    <div class="promo-card pc-red">
+      <span class="pc-ico">🎉</span>
+      <div><b>وجبة العائلة</b><br><small>خصم 20% للطلبات فوق 200 ج.م</small></div>
+    </div>
+    <div class="promo-card pc-yellow">
+      <span class="pc-ico">🚀</span>
+      <div><b>توصيل سريع</b><br><small>30 دقيقة أو الوجبة مجاناً</small></div>
+    </div>
+    <div class="promo-card pc-dark">
+      <span class="pc-ico">🏆</span>
+      <div><b>أفضل تقييم</b><br><small>4.9 نجوم من 10,000+ عميل</small></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CATEGORY TABS (mobile/section) ══ -->
+<section class="cats-section" id="menu-section">
+  <div class="cats-wrap" id="cats-wrap">
+    <div class="cats-scroll" id="cats-scroll">
+      <button class="cat-tab active" data-cat="all">
+        <span class="ct-ico">🍴</span><span>الكل</span>
+      </button>
+      <button class="cat-tab" data-cat="burgers">
+        <span class="ct-ico">🍔</span><span>برجر</span>
+      </button>
+      <button class="cat-tab" data-cat="chicken">
+        <span class="ct-ico">🍗</span><span>دجاج</span>
+      </button>
+      <button class="cat-tab" data-cat="meals">
+        <span class="ct-ico">🥡</span><span>وجبات</span>
+      </button>
+      <button class="cat-tab" data-cat="sides">
+        <span class="ct-ico">🍟</span><span>مقبلات</span>
+      </button>
+      <button class="cat-tab" data-cat="drinks">
+        <span class="ct-ico">🥤</span><span>مشروبات</span>
+      </button>
+      <button class="cat-tab" data-cat="desserts">
+        <span class="ct-ico">🍦</span><span>حلويات</span>
+      </button>
+      <button class="cat-tab" data-cat="breakfast">
+        <span class="ct-ico">🍳</span><span>فطور</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ MENU GRID ══ -->
+<main class="menu-main">
+  <div class="menu-top-row">
+    <h2 class="menu-heading" id="menu-heading">جميع الأصناف</h2>
+    <span class="menu-count" id="menu-count"></span>
+  </div>
+  <div class="menu-grid" id="menu-grid"></div>
+  <div class="no-results" id="no-results" style="display:none">
+    <div>🔍</div>
+    <p>مفيش نتائج</p>
+    <small>جرب كلمة تانية</small>
+  </div>
+</main>
+
+<!-- ══ CART PANEL ══ -->
+<div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+<aside class="cart-panel" id="cart-panel">
+  <div class="cp-header">
+    <h3>🛒 طلبك</h3>
+    <button class="cp-close" onclick="toggleCart()">✕</button>
+  </div>
+
+  <div class="cp-body" id="cp-body">
+    <div class="cp-empty" id="cp-empty">
+      <div class="cpe-ico">🛒</div>
+      <p>السلة فاضية</p>
+      <small>أضف أصناف من المنيو</small>
+    </div>
+    <ul class="cp-list" id="cp-list"></ul>
+  </div>
+
+  <div class="cp-footer" id="cp-footer" style="display:none">
+    <div class="cp-summary">
+      <div class="cps-row"><span>المجموع</span><span id="cp-sub">0 ج.م</span></div>
+      <div class="cps-row"><span>رسوم التوصيل</span><span class="green-txt">مجاني 🎉</span></div>
+      <div class="cps-row total"><span>الإجمالي</span><span id="cp-total">0 ج.م</span></div>
+    </div>
+    <button class="cp-order-btn" onclick="placeOrder()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      تأكيد الطلب
+    </button>
+  </div>
+</aside>
+
+<!-- ══ PRODUCT MODAL ══ -->
+<div class="prod-overlay" id="prod-overlay" onclick="closeModal()"></div>
+<div class="prod-modal" id="prod-modal">
+  <button class="pm-close" onclick="closeModal()">✕</button>
+  <div class="pm-img-wrap" id="pm-img"></div>
+  <div class="pm-body">
+    <div class="pm-badges" id="pm-badges"></div>
+    <h2 class="pm-name" id="pm-name"></h2>
+    <p class="pm-desc" id="pm-desc"></p>
+    <div class="pm-extras" id="pm-extras"></div>
+    <div class="pm-footer">
+      <div class="pm-price" id="pm-price"></div>
+      <div class="pm-qty">
+        <button class="qty-b minus" id="qty-minus">−</button>
+        <span class="qty-n" id="qty-n">1</span>
+        <button class="qty-b plus" id="qty-plus">+</button>
+      </div>
+      <button class="pm-add-btn" id="pm-add-btn">أضف للسلة</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TOAST ══ -->
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<!-- ══ FOOTER ══ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <div class="logo-m">S</div>
+      <span>Smart<span style="color:#FFC72C">&amp;</span>Digital</span>
+    </div>
+    <div class="footer-links">
+      <a href="#">من نحن</a>
+      <a href="#">تواصل معنا</a>
+      <a href="admin.html">لوحة التحكم</a>
+    </div>
+    <p class="footer-copy">© 2025 Smart & Digital — جميع الحقوق محفوظة</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

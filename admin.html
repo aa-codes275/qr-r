@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart & Digital — لوحة التحكم</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Poppins:wght@600;700;900&display=swap" rel="stylesheet">
+  <style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Cairo',sans-serif;background:#f5f5f5;color:#1a1a1a;overflow-x:hidden;line-height:1.6}
+button,input,select,textarea{font-family:'Cairo',sans-serif}
+a{text-decoration:none;color:inherit}
+::selection{background:#FFC72C;color:#000}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-thumb{background:#DA291C;border-radius:99px}
+:root{
+  --red:#DA291C;--red2:#b71c1c;--yellow:#FFC72C;
+  --dark:#1a1a1a;--white:#fff;--bg:#f5f5f5;--bg2:#efefef;
+  --border:#e0e0e0;--muted:#6b6b6b;--muted2:#9e9e9e;
+  --green:#22c55e;--orange:#f97316;
+  --r:12px;--rr:18px;
+  --shadow:0 2px 16px rgba(0,0,0,.08);
+}
+
+/* ══ LOGIN ══ */
+.login-page{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--red) 0%,var(--red2) 100%);
+  padding:24px;
+}
+.login-card{
+  width:min(440px,100%);background:var(--white);
+  border-radius:var(--rr);padding:48px 40px;
+  box-shadow:0 32px 80px rgba(0,0,0,.3);
+}
+.lc-logo{text-align:center;margin-bottom:36px}
+.lc-m{
+  width:72px;height:72px;border-radius:20px;margin:0 auto 14px;
+  background:linear-gradient(135deg,var(--red),var(--red2));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Poppins',sans-serif;font-size:1.6rem;font-weight:900;color:#fff;
+  box-shadow:0 8px 28px rgba(218,41,28,.4);
+}
+.lc-logo h2{font-size:1.3rem;font-weight:900}
+.lc-logo p{font-size:.8rem;color:var(--muted);margin-top:4px}
+.lc-label{display:block;font-size:.8rem;font-weight:700;color:var(--muted);margin-bottom:8px}
+.lc-inp{
+  width:100%;padding:13px 16px;margin-bottom:18px;
+  background:var(--bg);border:2px solid var(--border);
+  border-radius:var(--r);font-size:.9rem;color:var(--dark);outline:none;
+  transition:border-color .25s;
+}
+.lc-inp:focus{border-color:var(--red)}
+.lc-btn{
+  width:100%;padding:14px;
+  background:linear-gradient(135deg,var(--red),var(--red2));
+  color:#fff;border:none;border-radius:50px;
+  font-weight:900;font-size:.95rem;cursor:pointer;
+  box-shadow:0 6px 24px rgba(218,41,28,.35);
+  transition:transform .2s,box-shadow .2s;
+}
+.lc-btn:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(218,41,28,.5)}
+.lc-err{color:var(--red);font-size:.82rem;margin-top:12px;text-align:center;display:none}
+
+/* ══ DASH LAYOUT ══ */
+.dash{display:none}
+.dash-grid{display:flex;min-height:100vh}
+
+/* Sidebar */
+.sidebar{
+  width:248px;flex-shrink:0;
+  background:var(--dark);
+  display:flex;flex-direction:column;
+  position:sticky;top:0;height:100vh;overflow-y:auto;
+}
+.sb-brand{
+  padding:22px 20px;border-bottom:1px solid rgba(255,255,255,.07);
+  display:flex;align-items:center;gap:12px;
+}
+.sb-ico{
+  width:40px;height:40px;border-radius:11px;
+  background:linear-gradient(135deg,var(--red),var(--red2));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:900;color:#fff;flex-shrink:0;
+}
+.sb-title{font-size:.9rem;font-weight:900;color:#fff;line-height:1.2}
+.sb-sub{font-size:.67rem;color:rgba(255,255,255,.4)}
+.sb-nav{flex:1;padding:14px 12px;display:flex;flex-direction:column;gap:3px}
+.sb-item{
+  display:flex;align-items:center;gap:10px;
+  padding:11px 14px;border-radius:var(--r);
+  color:rgba(255,255,255,.55);font-size:.86rem;font-weight:700;
+  cursor:pointer;transition:all .2s;border:none;background:none;width:100%;text-align:right;
+}
+.sb-item:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.85)}
+.sb-item.on{background:var(--red);color:#fff;box-shadow:0 4px 16px rgba(218,41,28,.4)}
+.sb-ico2{font-size:1rem;flex-shrink:0}
+.sb-bottom{padding:14px 12px;border-top:1px solid rgba(255,255,255,.07)}
+.sb-logout{
+  width:100%;padding:10px 14px;border-radius:var(--r);
+  background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);
+  color:#f87171;font-family:'Cairo',sans-serif;font-size:.84rem;font-weight:700;
+  cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;
+}
+.sb-logout:hover{background:rgba(239,68,68,.18)}
+
+/* Main area */
+.main-area{flex:1;display:flex;flex-direction:column;min-width:0}
+.topbar{
+  height:62px;padding:0 28px;
+  background:var(--white);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  position:sticky;top:0;z-index:50;
+  box-shadow:0 1px 8px rgba(0,0,0,.06);
+}
+.tb-left{display:flex;align-items:center;gap:16px}
+.tb-page-title{font-size:1rem;font-weight:900}
+.tb-right{display:flex;align-items:center;gap:10px}
+.tb-clock{font-size:.78rem;color:var(--muted);font-family:'Poppins',sans-serif}
+.btn-red{
+  padding:9px 20px;border-radius:50px;
+  background:linear-gradient(135deg,var(--red),var(--red2));
+  color:#fff;border:none;font-family:'Cairo',sans-serif;
+  font-weight:900;font-size:.82rem;cursor:pointer;
+  box-shadow:0 4px 14px rgba(218,41,28,.3);
+  transition:transform .2s,box-shadow .2s;white-space:nowrap;
+}
+.btn-red:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(218,41,28,.45)}
+.content{flex:1;padding:28px}
+
+/* ══ SECTIONS ══ */
+.sec{display:none}
+.sec.on{display:block}
+
+/* ── OVERVIEW ── */
+.ov-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+.ov-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--rr);padding:22px 20px;
+  display:flex;align-items:center;gap:14px;
+  box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s;
+}
+.ov-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.1)}
+.ov-card-ico{
+  width:52px;height:52px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;flex-shrink:0;
+}
+.ic-r{background:rgba(218,41,28,.08)}
+.ic-y{background:rgba(255,199,44,.12)}
+.ic-g{background:rgba(34,197,94,.08)}
+.ic-b{background:rgba(59,130,246,.08)}
+.ov-val{font-family:'Poppins',sans-serif;font-size:1.7rem;font-weight:900;line-height:1}
+.ov-lbl{font-size:.74rem;color:var(--muted);margin-top:5px}
+.ov-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.ov-panel{background:var(--white);border:1px solid var(--border);border-radius:var(--rr);padding:24px;box-shadow:var(--shadow)}
+.ov-panel-title{font-size:.88rem;font-weight:900;margin-bottom:18px;display:flex;align-items:center;gap:8px}
+
+/* ── ITEMS TABLE ── */
+.items-bar{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.items-search{
+  flex:1;max-width:280px;padding:9px 14px;
+  background:var(--white);border:1px solid var(--border);
+  border-radius:50px;font-size:.85rem;color:var(--dark);outline:none;
+  transition:border-color .25s;
+}
+.items-search:focus{border-color:var(--red)}
+.items-sel{
+  padding:9px 16px;background:var(--white);border:1px solid var(--border);
+  border-radius:50px;font-family:'Cairo',sans-serif;font-size:.85rem;
+  color:var(--dark);outline:none;cursor:pointer;
+}
+.items-sel:focus{border-color:var(--red)}
+.tbl-card{background:var(--white);border:1px solid var(--border);border-radius:var(--rr);overflow:hidden;box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse}
+thead th{
+  padding:12px 16px;background:#f9f9f9;border-bottom:2px solid var(--border);
+  font-size:.76rem;font-weight:900;color:var(--muted);text-align:right;white-space:nowrap;
+}
+tbody tr{border-bottom:1px solid #f0f0f0;transition:background .15s}
+tbody tr:last-child{border:none}
+tbody tr:hover{background:#fafafa}
+td{padding:12px 16px;font-size:.84rem;vertical-align:middle}
+.td-emo{font-size:1.6rem}
+.td-name{font-weight:900;max-width:180px}
+.td-desc{color:var(--muted2);font-size:.75rem;max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.td-price{font-family:'Poppins',sans-serif;font-weight:700;color:var(--red);white-space:nowrap}
+.td-cat{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.67rem;font-weight:900;background:rgba(218,41,28,.07);color:var(--red);border:1px solid rgba(218,41,28,.15);white-space:nowrap}
+
+/* Badge pill */
+.bpill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:.63rem;font-weight:900}
+.bpill-new{background:rgba(59,130,246,.1);color:#3b82f6;border:1px solid rgba(59,130,246,.2)}
+.bpill-hot{background:rgba(255,199,44,.15);color:#b45309;border:1px solid rgba(255,199,44,.3)}
+.bpill-sale{background:rgba(34,197,94,.08);color:#16a34a;border:1px solid rgba(34,197,94,.2)}
+.bpill-sold{background:#f0f0f0;color:var(--muted);border:1px solid var(--border)}
+
+/* Toggle */
+.tog{position:relative;display:inline-block;width:44px;height:24px;cursor:pointer}
+.tog input{opacity:0;width:0;height:0;position:absolute}
+.tog-sl{position:absolute;inset:0;border-radius:99px;background:#e0e0e0;transition:.3s}
+.tog-sl::before{content:'';position:absolute;width:16px;height:16px;border-radius:50%;background:#fff;bottom:4px;right:4px;transition:.3s;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.tog input:checked+.tog-sl{background:var(--green)}
+.tog input:checked+.tog-sl::before{transform:translateX(-20px)}
+
+/* Action buttons */
+.act-row{display:flex;gap:6px}
+.btn-edit,.btn-del{
+  padding:6px 14px;border-radius:8px;
+  font-family:'Cairo',sans-serif;font-size:.74rem;font-weight:700;cursor:pointer;border:none;
+}
+.btn-edit{background:rgba(255,199,44,.12);color:#b45309;border:1px solid rgba(255,199,44,.3)}
+.btn-edit:hover{background:rgba(255,199,44,.22)}
+.btn-del{background:rgba(218,41,28,.07);color:var(--red);border:1px solid rgba(218,41,28,.15)}
+.btn-del:hover{background:rgba(218,41,28,.14)}
+
+/* ── ORDERS ══ */
+.ord-card{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--rr);
+  padding:18px 22px;margin-bottom:14px;box-shadow:var(--shadow);
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+}
+.ord-id{font-family:'Poppins',sans-serif;font-size:.78rem;color:var(--muted)}
+.ord-time{font-size:.73rem;color:var(--muted2)}
+.ord-total{font-family:'Poppins',sans-serif;font-size:1.15rem;font-weight:900;color:var(--red)}
+.ord-status{padding:5px 14px;border-radius:20px;font-size:.74rem;font-weight:700}
+.os-pend{background:rgba(249,115,22,.08);color:var(--orange);border:1px solid rgba(249,115,22,.2)}
+.os-done{background:rgba(34,197,94,.08);color:var(--green);border:1px solid rgba(34,197,94,.2)}
+.ord-confirm{padding:7px 16px;border-radius:20px;font-family:'Cairo',sans-serif;font-size:.76rem;font-weight:700;cursor:pointer;border:none;transition:all .2s}
+.ord-confirm-y{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.2)}
+.ord-confirm-y:hover{background:rgba(34,197,94,.2)}
+.ord-confirm-n{background:rgba(239,68,68,.08);color:#ef4444;border:1px solid rgba(239,68,68,.15)}
+.ord-confirm-n:hover{background:rgba(239,68,68,.15)}
+.ord-empty{text-align:center;padding:80px;color:var(--muted)}
+.ord-empty div{font-size:3rem;margin-bottom:16px}
+
+/* ── SETTINGS ── */
+.set-card{background:var(--white);border:1px solid var(--border);border-radius:var(--rr);padding:28px;max-width:560px;box-shadow:var(--shadow)}
+.set-title{font-size:.9rem;font-weight:900;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.f-row{margin-bottom:18px}
+.f-lbl{display:block;font-size:.78rem;font-weight:700;color:var(--muted);margin-bottom:8px}
+.f-inp,.f-sel,.f-ta{
+  width:100%;padding:11px 14px;
+  background:var(--bg);border:2px solid var(--border);
+  border-radius:var(--r);font-size:.88rem;color:var(--dark);outline:none;
+  transition:border-color .25s;
+}
+.f-inp:focus,.f-sel:focus,.f-ta:focus{border-color:var(--red)}
+.f-ta{resize:vertical;min-height:80px;line-height:1.7}
+.f-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+/* ══ MODAL ══ */
+.m-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:800;backdrop-filter:blur(5px)}
+.m-ov.on{display:block}
+.m-box{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.94);
+  width:min(580px,96vw);background:var(--white);border-radius:var(--rr);
+  box-shadow:0 40px 100px rgba(0,0,0,.3);
+  opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;
+  max-height:90vh;overflow-y:auto;
+}
+.m-box.on{opacity:1;pointer-events:all;transform:translate(-50%,-50%) scale(1)}
+.m-hdr{
+  padding:18px 24px;background:var(--red);color:#fff;
+  display:flex;align-items:center;justify-content:space-between;
+  border-radius:var(--rr) var(--rr) 0 0;
+  position:sticky;top:0;z-index:2;
+}
+.m-hdr h3{font-size:.95rem;font-weight:900}
+.m-x{
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(255,255,255,.15);color:#fff;
+  font-size:.85rem;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:background .2s;border:none;
+}
+.m-x:hover{background:rgba(255,255,255,.28)}
+.m-body{padding:24px}
+.m-foot{padding:16px 24px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end;background:var(--white);border-radius:0 0 var(--rr) var(--rr)}
+.btn-cancel{padding:10px 22px;background:var(--bg);border:1px solid var(--border);border-radius:50px;color:var(--muted);font-family:'Cairo',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer;transition:all .2s}
+.btn-cancel:hover{border-color:var(--red);color:var(--dark)}
+.btn-save{padding:10px 28px;background:linear-gradient(135deg,var(--red),var(--red2));border:none;border-radius:50px;color:#fff;font-family:'Cairo',sans-serif;font-weight:900;font-size:.88rem;cursor:pointer;box-shadow:0 4px 14px rgba(218,41,28,.3);transition:transform .2s}
+.btn-save:hover{transform:translateY(-2px)}
+
+/* ══ TOAST ══ */
+.toast{
+  position:fixed;bottom:24px;left:50%;
+  transform:translateX(-50%) translateY(60px);
+  background:var(--dark);color:#fff;padding:11px 26px;
+  border-radius:50px;font-size:.86rem;font-weight:700;
+  z-index:9999;pointer-events:none;
+  transition:transform .4s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;
+  box-shadow:0 8px 24px rgba(0,0,0,.3);
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.ok{background:var(--green)}
+.toast.err{background:#ef4444}
+.toast.warn{background:var(--yellow);color:var(--dark)}
+
+/* Responsive */
+@media(max-width:900px){.sidebar{width:200px}.ov-stats{grid-template-columns:1fr 1fr}.ov-grid-2{grid-template-columns:1fr}}
+@media(max-width:640px){.sidebar{display:none}.main-area{margin:0}.ov-stats{grid-template-columns:1fr 1fr}.f-grid-2{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<!-- ░░ LOGIN ░░ -->
+<div class="login-page" id="login-page">
+  <div class="login-card">
+    <div class="lc-logo">
+      <div class="lc-m">SD</div>
+      <h2>Smart & Digital</h2>
+      <p>لوحة تحكم المنيو الرقمي</p>
+    </div>
+    <label class="lc-label">اسم المستخدم</label>
+    <input class="lc-inp" id="l-user" type="text" placeholder="admin" autocomplete="off">
+    <label class="lc-label">كلمة المرور</label>
+    <input class="lc-inp" id="l-pass" type="password" placeholder="••••••••">
+    <button class="lc-btn" onclick="doLogin()">دخول →</button>
+    <p class="lc-err" id="l-err">❌ بيانات الدخول غلط، حاول تاني</p>
+  </div>
+</div>
+
+<!-- ░░ DASHBOARD ░░ -->
+<div class="dash" id="dash">
+  <div class="dash-grid">
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="sb-brand">
+        <div class="sb-ico">SD</div>
+        <div>
+          <div class="sb-title">Smart & Digital</div>
+          <div class="sb-sub">Admin Panel</div>
+        </div>
+      </div>
+      <div class="sb-nav">
+        <button class="sb-item on" onclick="goSec(this,'overview')"><span class="sb-ico2">📊</span>نظرة عامة</button>
+        <button class="sb-item"    onclick="goSec(this,'items')"><span class="sb-ico2">🍔</span>الأصناف</button>
+        <button class="sb-item"    onclick="goSec(this,'orders')"><span class="sb-ico2">🧾</span>الطلبات</button>
+        <button class="sb-item"    onclick="goSec(this,'settings')"><span class="sb-ico2">⚙️</span>الإعدادات</button>
+        <a class="sb-item" href="index.html" target="_blank"><span class="sb-ico2">🌐</span>المنيو المباشر</a>
+      </div>
+      <div class="sb-bottom">
+        <button class="sb-logout" onclick="doLogout()">🚪 تسجيل الخروج</button>
+      </div>
+    </nav>
+
+    <!-- Main -->
+    <div class="main-area">
+      <div class="topbar">
+        <div class="tb-left">
+          <div class="tb-page-title" id="tb-title">نظرة عامة</div>
+        </div>
+        <div class="tb-right">
+          <span class="tb-clock" id="tb-clock"></span>
+          <button class="btn-red" id="add-item-btn" style="display:none" onclick="openForm(null)">+ إضافة صنف</button>
+        </div>
+      </div>
+
+      <div class="content">
+
+        <!-- OVERVIEW -->
+        <div class="sec on" id="sec-overview">
+          <div class="ov-stats">
+            <div class="ov-card">
+              <div class="ov-card-ico ic-r">🍔</div>
+              <div><div class="ov-val" id="ov-total">0</div><div class="ov-lbl">إجمالي الأصناف</div></div>
+            </div>
+            <div class="ov-card">
+              <div class="ov-card-ico ic-g">✅</div>
+              <div><div class="ov-val" id="ov-visible">0</div><div class="ov-lbl">أصناف ظاهرة</div></div>
+            </div>
+            <div class="ov-card">
+              <div class="ov-card-ico ic-y">🧾</div>
+              <div><div class="ov-val" id="ov-orders">0</div><div class="ov-lbl">إجمالي الطلبات</div></div>
+            </div>
+            <div class="ov-card">
+              <div class="ov-card-ico ic-b">💰</div>
+              <div><div class="ov-val" id="ov-rev">0</div><div class="ov-lbl">إيرادات (ج.م)</div></div>
+            </div>
+          </div>
+          <div class="ov-grid-2">
+            <div class="ov-panel">
+              <div class="ov-panel-title">🍔 آخر الأصناف</div>
+              <div id="ov-recent"></div>
+            </div>
+            <div class="ov-panel">
+              <div class="ov-panel-title">🧾 آخر الطلبات</div>
+              <div id="ov-orders-list"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ITEMS -->
+        <div class="sec" id="sec-items">
+          <div class="items-bar">
+            <input class="items-search" id="itm-q" type="text" placeholder="🔍 ابحث..." oninput="renderTable()">
+            <select class="items-sel" id="itm-cat" onchange="renderTable()">
+              <option value="all">كل الفئات</option>
+              <option value="burgers">برجر</option>
+              <option value="chicken">دجاج</option>
+              <option value="meals">وجبات</option>
+              <option value="sides">مقبلات</option>
+              <option value="drinks">مشروبات</option>
+              <option value="desserts">حلويات</option>
+              <option value="breakfast">فطور</option>
+            </select>
+          </div>
+          <div class="tbl-card">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th><th>الصنف</th><th>الوصف</th><th>الفئة</th>
+                  <th>السعر</th><th>الحالة</th><th>الظهور</th><th>إجراءات</th>
+                </tr>
+              </thead>
+              <tbody id="tbl-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ORDERS -->
+        <div class="sec" id="sec-orders">
+          <div id="orders-area"></div>
+        </div>
+
+        <!-- SETTINGS -->
+        <div class="sec" id="sec-settings">
+          <div class="set-card">
+            <div class="set-title">⚙️ إعدادات المطعم</div>
+            <div class="f-grid-2">
+              <div class="f-row"><label class="f-lbl">اسم المطعم</label><input class="f-inp" id="s-name" value="Smart & Digital"></div>
+              <div class="f-row"><label class="f-lbl">رقم الهاتف</label><input class="f-inp" id="s-phone" placeholder="01000000000"></div>
+            </div>
+            <div class="f-row"><label class="f-lbl">العنوان</label><input class="f-inp" id="s-addr" placeholder="العنوان الكامل"></div>
+            <div class="f-row"><label class="f-lbl">رابط الواتساب</label><input class="f-inp" id="s-wa" placeholder="https://wa.me/201..."></div>
+            <div class="f-row"><label class="f-lbl">كلمة مرور الأدمن الجديدة</label><input class="f-inp" type="password" id="s-pass" placeholder="اتركه فاضي لو مش هتغيره"></div>
+            <button class="btn-red" onclick="saveSettings()">💾 حفظ</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ░░ FORM MODAL ░░ -->
+<div class="m-ov" id="m-ov" onclick="closeForm()"></div>
+<div class="m-box" id="m-box">
+  <div class="m-hdr">
+    <h3 id="m-title">إضافة صنف جديد</h3>
+    <button class="m-x" onclick="closeForm()">✕</button>
+  </div>
+  <div class="m-body">
+    <input type="hidden" id="f-id">
+    <div class="f-grid-2">
+      <div class="f-row"><label class="f-lbl">اسم الصنف *</label><input class="f-inp" id="f-name" placeholder="مثال: برجر كلاسيك"></div>
+      <div class="f-row">
+        <label class="f-lbl">الفئة *</label>
+        <select class="f-sel" id="f-cat">
+          <option value="burgers">برجر</option>
+          <option value="chicken">دجاج</option>
+          <option value="meals">وجبات</option>
+          <option value="sides">مقبلات</option>
+          <option value="drinks">مشروبات</option>
+          <option value="desserts">حلويات</option>
+          <option value="breakfast">فطور</option>
+        </select>
+      </div>
+    </div>
+    <div class="f-row"><label class="f-lbl">الوصف *</label><textarea class="f-ta" id="f-desc" placeholder="وصف تفصيلي..."></textarea></div>
+    <div class="f-grid-2">
+      <div class="f-row"><label class="f-lbl">السعر (ج.م) *</label><input class="f-inp" id="f-price" type="number" min="0" placeholder="0"></div>
+      <div class="f-row"><label class="f-lbl">سعر قبل الخصم</label><input class="f-inp" id="f-old" type="number" min="0" placeholder="اتركه فاضي"></div>
+    </div>
+    <div class="f-grid-2">
+      <div class="f-row"><label class="f-lbl">الإيموجي</label><input class="f-inp" id="f-emoji" placeholder="🍔"></div>
+      <div class="f-row">
+        <label class="f-lbl">البادج</label>
+        <select class="f-sel" id="f-badge">
+          <option value="">بدون</option>
+          <option value="new">جديد</option>
+          <option value="hot">الأكثر طلباً 🔥</option>
+          <option value="sale">خصم</option>
+          <option value="sold">نفذ</option>
+        </select>
+      </div>
+    </div>
+    <div class="f-row"><label class="f-lbl">التخصيص (افصل بفاصلة)</label><input class="f-inp" id="f-extras" placeholder="بدون بصل, إضافي جبن, حار..."></div>
+  </div>
+  <div class="m-foot">
+    <button class="btn-cancel" onclick="closeForm()">إلغاء</button>
+    <button class="btn-save" onclick="saveItem()">💾 حفظ الصنف</button>
+  </div>
+</div>
+
+<!-- ░░ TOAST ░░ -->
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+
+/* ── CONFIG ── */
+const PASS = 'admin123';
+const CAT_AR = {burgers:'برجر',chicken:'دجاج',meals:'وجبات',sides:'مقبلات',drinks:'مشروبات',desserts:'حلويات',breakfast:'فطور'};
+
+/* ── DEFAULT ITEMS ── */
+const DEFAULT_ITEMS = [
+  {id:1,cat:'burgers',name:'برجر كلاسيك',desc:'لحم بقري طازج مع جبنة شيدر وخس وطماطم',price:89,oldPrice:null,emoji:'🍔',badge:'hot',extras:['بدون بصل','جبنة إضافية'],visible:true},
+  {id:2,cat:'burgers',name:'داबل تشيز برجر',desc:'ضعف اللحم والجبن مع بيكون مقرمش',price:129,oldPrice:150,emoji:'🍔',badge:'sale',extras:['بدون بصل'],visible:true},
+  {id:3,cat:'chicken',name:'وينجز بفالو',desc:'10 وينجز بصلصة البفالو الحارة',price:85,oldPrice:null,emoji:'🍗',badge:'hot',extras:['حار','وسط','خفيف'],visible:true},
+  {id:4,cat:'chicken',name:'نجيتس دجاج',desc:'12 قطعة نجيتس مع صلصتين',price:65,oldPrice:null,emoji:'🍗',badge:null,extras:['6 قطع +20'],visible:true},
+  {id:5,cat:'meals',name:'وجبة عائلية كبيرة',desc:'4 برجر + 4 فريز + 4 مشروبات',price:299,oldPrice:499,emoji:'🥡',badge:'sale',extras:['مع سلطة'],visible:true},
+  {id:6,cat:'sides',name:'فريز كلاسيك كبير',desc:'بطاطس مقلية ذهبية مقرمشة',price:35,oldPrice:null,emoji:'🍟',badge:null,extras:['بدون ملح'],visible:true},
+  {id:7,cat:'drinks',name:'عصير مانجو طازج',desc:'مانجو طازج 100%',price:45,oldPrice:null,emoji:'🥭',badge:'hot',extras:['بدون ثلج'],visible:true},
+  {id:8,cat:'desserts',name:'آيس كريم سنداي',desc:'فانيليا مع صلصة الشوكولا',price:40,oldPrice:null,emoji:'🍨',badge:'hot',extras:['فراولة','كراميل'],visible:true},
+  {id:9,cat:'breakfast',name:'إفطار انجليزي كامل',desc:'بيض + سجق + بيكون + خبز محمص + عصير',price:120,oldPrice:null,emoji:'🍳',badge:'new',extras:['بدون بيكون'],visible:true},
+];
+
+/* ── STATE ── */
+let items  = JSON.parse(localStorage.getItem('sd2_items')  || JSON.stringify(DEFAULT_ITEMS));
+let orders = JSON.parse(localStorage.getItem('sd2_orders') || '[]');
+let editId = null;
+
+function saveItems()  { localStorage.setItem('sd2_items',  JSON.stringify(items));  }
+function saveOrders() { localStorage.setItem('sd2_orders', JSON.stringify(orders)); }
+
+/* ══ LOGIN ══ */
+function doLogin() {
+  const p   = document.getElementById('l-pass').value;
+  const err = document.getElementById('l-err');
+  if (p === PASS) {
+    document.getElementById('login-page').style.display = 'none';
+    document.getElementById('dash').style.display = 'block';
+    init();
+  } else {
+    err.style.display = 'block';
+    setTimeout(() => err.style.display = 'none', 2500);
+  }
+}
+function doLogout() {
+  document.getElementById('login-page').style.display = 'flex';
+  document.getElementById('dash').style.display = 'none';
+  document.getElementById('l-pass').value = '';
+}
+document.getElementById('l-pass').addEventListener('keydown', e => { if (e.key==='Enter') doLogin(); });
+document.getElementById('l-user').addEventListener('keydown', e => { if (e.key==='Enter') document.getElementById('l-pass').focus(); });
+
+/* ══ NAVIGATION ══ */
+function goSec(btn, sec) {
+  document.querySelectorAll('.sb-item').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('sec-' + sec).classList.add('on');
+  const T = {overview:'نظرة عامة',items:'إدارة الأصناف',orders:'الطلبات',settings:'الإعدادات'};
+  document.getElementById('tb-title').textContent = T[sec] || sec;
+  document.getElementById('add-item-btn').style.display = sec === 'items' ? 'inline-block' : 'none';
+  if (sec === 'overview') renderOverview();
+  if (sec === 'orders')   renderOrders();
+}
+
+/* ══ INIT ══ */
+function init() { renderOverview(); renderTable(); renderOrders(); tick(); setInterval(tick, 30000); }
+function tick() {
+  const n = new Date();
+  document.getElementById('tb-clock').textContent =
+    n.toLocaleDateString('ar-EG') + ' ' + n.toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'});
+}
+
+/* ══ OVERVIEW ══ */
+function renderOverview() {
+  document.getElementById('ov-total').textContent   = items.length;
+  document.getElementById('ov-visible').textContent = items.filter(i=>i.visible).length;
+  document.getElementById('ov-orders').textContent  = orders.length;
+  const rev = orders.reduce((a,o)=>a+(o.total||0),0);
+  document.getElementById('ov-rev').textContent     = rev.toLocaleString();
+
+  document.getElementById('ov-recent').innerHTML = [...items].slice(-5).reverse().map(it=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f0f0f0">
+      <span style="font-size:1.3rem">${it.emoji}</span>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:900;font-size:.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${it.name}</div>
+        <div style="font-size:.71rem;color:var(--muted)">${CAT_AR[it.cat]||it.cat}</div>
+      </div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:700;color:var(--red);font-size:.85rem">${it.price} ج.م</div>
+    </div>`).join('');
+
+  document.getElementById('ov-orders-list').innerHTML = orders.length
+    ? orders.slice(0,5).map((o,i)=>`
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0">
+        <div>
+          <div style="font-weight:900;font-size:.83rem">#${String(i+1).padStart(3,'0')}</div>
+          <div style="font-size:.7rem;color:var(--muted2)">${o.time||''}</div>
+        </div>
+        <div style="font-family:'Poppins';font-weight:700;color:var(--red)">${o.total} ج.م</div>
+        <span style="padding:3px 10px;border-radius:20px;font-size:.67rem;font-weight:900;${o.done?'background:rgba(34,197,94,.08);color:var(--green);border:1px solid rgba(34,197,94,.2)':'background:rgba(249,115,22,.08);color:var(--orange);border:1px solid rgba(249,115,22,.2)'}">${o.done?'✓ مكتمل':'⏳ قيد التنفيذ'}</span>
+      </div>`).join('')
+    : '<p style="text-align:center;padding:24px;color:var(--muted2);font-size:.82rem">لا توجد طلبات</p>';
+}
+
+/* ══ TABLE ══ */
+function renderTable() {
+  const q   = (document.getElementById('itm-q').value||'').trim();
+  const cat = document.getElementById('itm-cat').value;
+  const list = items.filter(it=>(cat==='all'||it.cat===cat)&&(!q||(it.name+it.desc).includes(q)));
+  const body = document.getElementById('tbl-body');
+  if (!list.length){
+    body.innerHTML=`<tr><td colspan="8" style="text-align:center;padding:44px;color:var(--muted)">لا توجد نتائج</td></tr>`;
+    return;
+  }
+  body.innerHTML = list.map((it,i)=>`
+    <tr>
+      <td style="color:var(--muted2)">${i+1}</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span class="td-emo">${it.emoji}</span>
+          <div class="td-name">${it.name}</div>
+        </div>
+      </td>
+      <td><div class="td-desc">${it.desc}</div></td>
+      <td><span class="td-cat">${CAT_AR[it.cat]||it.cat}</span></td>
+      <td class="td-price">${it.price} ج.م${it.oldPrice?`<br><span style="text-decoration:line-through;color:var(--muted2);font-size:.7rem">${it.oldPrice}</span>`:''}</td>
+      <td>${it.badge?`<span class="bpill bpill-${it.badge}">${badgeAR(it.badge)}</span>`:'<span style="color:var(--muted2);font-size:.75rem">—</span>'}</td>
+      <td>
+        <label class="tog">
+          <input type="checkbox" ${it.visible?'checked':''} onchange="toggleVis(${it.id})">
+          <span class="tog-sl"></span>
+        </label>
+      </td>
+      <td>
+        <div class="act-row">
+          <button class="btn-edit" onclick="openForm(${it.id})">✏️ تعديل</button>
+          <button class="btn-del"  onclick="delItem(${it.id})">🗑️ حذف</button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+function badgeAR(b) { return {new:'جديد',hot:'🔥 الأكثر',sale:'خصم',sold:'نفذ'}[b]||''; }
+
+function toggleVis(id) {
+  const it = items.find(x=>x.id===id);
+  if(it){ it.visible=!it.visible; saveItems(); renderTable(); renderOverview(); showToast(it.visible?'✓ الصنف ظاهر':'⚠️ الصنف مخفي',it.visible?'ok':'warn'); }
+}
+function delItem(id) {
+  const it = items.find(x=>x.id===id);
+  if(!it||!confirm(`تأكيد حذف "${it.name}"؟`)) return;
+  items=items.filter(x=>x.id!==id); saveItems(); renderTable(); renderOverview();
+  showToast('🗑️ تم الحذف');
+}
+
+/* ══ FORM ══ */
+function openForm(id) {
+  editId = id;
+  const it = id ? items.find(x=>x.id===id) : null;
+  document.getElementById('m-title').textContent = id ? 'تعديل الصنف' : 'إضافة صنف جديد';
+  document.getElementById('f-id').value     = id||'';
+  document.getElementById('f-name').value   = it?.name||'';
+  document.getElementById('f-desc').value   = it?.desc||'';
+  document.getElementById('f-price').value  = it?.price||'';
+  document.getElementById('f-old').value    = it?.oldPrice||'';
+  document.getElementById('f-emoji').value  = it?.emoji||'🍔';
+  document.getElementById('f-cat').value    = it?.cat||'burgers';
+  document.getElementById('f-badge').value  = it?.badge||'';
+  document.getElementById('f-extras').value = it?.extras?.join(', ')||'';
+  document.getElementById('m-ov').classList.add('on');
+  document.getElementById('m-box').classList.add('on');
+  document.body.style.overflow='hidden';
+  setTimeout(()=>document.getElementById('f-name').focus(),200);
+}
+function closeForm() {
+  document.getElementById('m-ov').classList.remove('on');
+  document.getElementById('m-box').classList.remove('on');
+  document.body.style.overflow='';
+}
+function saveItem() {
+  const name   = document.getElementById('f-name').value.trim();
+  const desc   = document.getElementById('f-desc').value.trim();
+  const price  = parseFloat(document.getElementById('f-price').value);
+  const oldP   = parseFloat(document.getElementById('f-old').value)||null;
+  const emoji  = document.getElementById('f-emoji').value.trim()||'🍔';
+  const cat    = document.getElementById('f-cat').value;
+  const badge  = document.getElementById('f-badge').value||null;
+  const extras = document.getElementById('f-extras').value.split(',').map(x=>x.trim()).filter(Boolean);
+  if(!name||!desc||!price){ showToast('❌ اكمل الحقول المطلوبة','err'); return; }
+  if(editId){
+    const it=items.find(x=>x.id===editId);
+    if(it){Object.assign(it,{name,desc,price,oldPrice:oldP,emoji,cat,badge,extras});}
+  } else {
+    const nid=items.length?Math.max(...items.map(x=>x.id))+1:1;
+    items.push({id:nid,cat,name,desc,price,oldPrice:oldP,emoji,badge,extras,visible:true});
+  }
+  saveItems(); renderTable(); renderOverview(); closeForm();
+  showToast(editId?'✓ تم التعديل':'✓ تمت الإضافة','ok');
+  editId=null;
+}
+
+/* ══ ORDERS ══ */
+function renderOrders() {
+  const area = document.getElementById('orders-area');
+  if(!orders.length){
+    area.innerHTML=`<div class="ord-empty"><div>🧾</div><p>لا توجد طلبات بعد</p></div>`;
+    return;
+  }
+  area.innerHTML = orders.map((o,i)=>`
+    <div class="ord-card">
+      <div>
+        <div class="ord-id">#${String(i+1).padStart(4,'0')}</div>
+        <div class="ord-time">${o.time||''}</div>
+      </div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:.8rem;color:var(--muted2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
+          ${(o.items||[]).length} صنف
+        </div>
+      </div>
+      <div class="ord-total">${o.total||0} ج.م</div>
+      <span class="ord-status ${o.done?'os-done':'os-pend'}">${o.done?'✓ مكتمل':'⏳ قيد التنفيذ'}</span>
+      <button class="${o.done?'ord-confirm ord-confirm-n':'ord-confirm ord-confirm-y'}" onclick="toggleOrd(${i})">${o.done?'إعادة فتح':'تأكيد ✓'}</button>
+    </div>`).join('');
+}
+function toggleOrd(i){
+  if(orders[i]){ orders[i].done=!orders[i].done; saveOrders(); renderOrders(); renderOverview(); }
+}
+
+/* ══ SETTINGS ══ */
+function saveSettings(){ showToast('✓ تم حفظ الإعدادات','ok'); document.getElementById('s-pass').value=''; }
+
+/* ══ TOAST ══ */
+let _tt;
+function showToast(msg,type){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast show'+(type?' '+type:'');
+  clearTimeout(_tt); _tt=setTimeout(()=>{t.className='toast';},2600);
+}
+
+/* ══ KEYBOARD ══ */
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeForm();});
+</script>
+</body>
+</html>
